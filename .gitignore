@@ -35,3 +35,7 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+# Sebastian's extra ignores
+Plugins/
+Plugins.meta
