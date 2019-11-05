@@ -50,19 +50,19 @@ public class BoardManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        InitializeBoard();
+        //InitializeBoard();
 	}
 
     private void InitializeBoard()
     {
         int height = board.GetLength(0);
         int width = board.GetLength(1);
-        board.GetLength(0);
         for (int i = 0; i<width; i++)
         {
             for (int j = 0; j<height; j++)
             {
                 switch (board[j, i])
+                    // I think I'll need to set the parent of these things, to make them appear on the canvas layers correctly
                 {
                     case 'G':
                         Instantiate(groundTiles[UnityEngine.Random.Range(0,groundTiles.Length)], new Vector3(i, height - j - 1, 0), Quaternion.identity);
