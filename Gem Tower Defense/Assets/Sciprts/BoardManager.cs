@@ -81,6 +81,12 @@ public class BoardManager : MonoBehaviour
         }
     }
 
+    public void PlaceTile(float x, float y)
+    {// change this to 0 instead of -1 later
+        Debug.Log("place tile got called with" + x + "  - " + y);
+        Instantiate(pathTiles[1], new Vector3(x, y, -1), Quaternion.identity);
+    }
+
     // Update is called once per frame
     void Update()
     {
