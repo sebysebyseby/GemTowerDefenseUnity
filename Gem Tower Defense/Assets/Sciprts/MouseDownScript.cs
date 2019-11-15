@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class MouseDownScript : MonoBehaviour
+public class MouseDownScript : MonoBehaviour, IPointerClickHandler
 {
     // Start is called before the first frame update
     void Start()
@@ -19,5 +20,10 @@ public class MouseDownScript : MonoBehaviour
     public void OnMouseDown()
     {
         Debug.Log("I clicked the thing");
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Debug.Log("I pointerClickHandled the thing");
     }
 }
