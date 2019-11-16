@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class MouseDownScript : MonoBehaviour, IPointerClickHandler
 {
-    public BoardManager boardManager;
+    private BoardManager boardManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +26,8 @@ public class MouseDownScript : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         Debug.Log("I pointerClickHandled the thing");
-        boardManager.PlaceTile(4, 5);
+        var x = gameObject.transform.position.x;
+        var y = gameObject.transform.position.y;
+        boardManager.PlaceTile(x, y);
     }
 }
