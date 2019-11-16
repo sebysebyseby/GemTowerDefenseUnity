@@ -28,6 +28,6 @@ public class MouseDownScript : MonoBehaviour, IPointerClickHandler
         Debug.Log("I pointerClickHandled the thing");
         var x = gameObject.transform.position.x;
         var y = gameObject.transform.position.y;
-        boardManager.PlaceTile(x, y);
+        boardManager.PlaceRandomTile(x, y);
     }
 }

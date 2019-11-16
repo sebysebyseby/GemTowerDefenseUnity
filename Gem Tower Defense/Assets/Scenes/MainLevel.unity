@@ -232,7 +232,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 15
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -274,7 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a160d838ff8b4b4693ac20007e008c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AssetsPPU: 16
+  m_AssetsPPU: 8
   m_RefResolutionX: 320
   m_RefResolutionY: 180
   m_UpscaleRT: 0
@@ -412,6 +412,15 @@ MonoBehaviour:
   - {fileID: 2751948427115268968, guid: 1c6ff8096fa762545b79df53774f7b17, type: 3}
   - {fileID: 4451159578887673485, guid: 02ae0f95d338f974187de7cc2cbe9ec5, type: 3}
   checkpointTile: {fileID: 0}
+  chippedGems:
+  - {fileID: 5112011046384422838, guid: 7c862c548cb5a914da2b2e4e3c60b4c7, type: 3}
+  - {fileID: 5278690339066571644, guid: 6b349aaa19c83464d8014dc0709d923b, type: 3}
+  - {fileID: 4454217062737346208, guid: fae76ee8cb90444439214949852897da, type: 3}
+  - {fileID: 1133853169638611904, guid: 8d70adee173371240acd201d8dbe92ae, type: 3}
+  - {fileID: 8054154802095626602, guid: 2f898c467f6efa84bbbfc7ccb6504d00, type: 3}
+  - {fileID: 3540688706979768033, guid: 35505a4f83865a847a9c7c4ca637ee67, type: 3}
+  - {fileID: 3898733840156381784, guid: eaee3721b768be3438c9f45a587ff25f, type: 3}
+  - {fileID: 5368652960620937425, guid: 0f155f80a68e04a4682190e5e6a2cc9d, type: 3}
 --- !u!4 &1325268698
 Transform:
   m_ObjectHideFlags: 0

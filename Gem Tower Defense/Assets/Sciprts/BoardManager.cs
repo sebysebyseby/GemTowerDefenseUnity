@@ -9,6 +9,9 @@ public class BoardManager : MonoBehaviour
     public GameObject[] groundTiles;
     public GameObject[] pathTiles;
     public GameObject checkpointTile;
+    public GameObject[] chippedGems;
+
+    public Stack<GameObject> freshlyPlacedTiles = new Stack<GameObject>();
 
     public static char[,] bigBoard = new char[19, 20]
     {
@@ -81,10 +84,17 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    public void PlaceTile(float x, float y)
+    public void PlaceRandomTile(float x, float y)
     {// change this to 0 instead of -1 later
-        Debug.Log("place tile got called with" + x + "  - " + y);
-        Instantiate(pathTiles[1], new Vector3(x, y, -1), Quaternion.identity);
+        if (freshlyPlacedTiles.Count >= 5) throw new Exception("There were already 5 freshly placed gems");
+        Debug.Log("place random tile got called with" + x + "  - " + y);
+        var freshlyPlacedGem = Instantiate(chippedGems[UnityEngine.Random.Range(0, chippedGems.Length)], new Vector3(x, y, -1), Quaternion.identity);
+
+        freshlyPlacedTiles.Push(freshlyPlacedGem);
+        if (freshlyPlacedTiles.Count >= 5)
+        {
+            //do something trigger being able to keep one of the placed gems
+        }
     }
 
     // Update is called once per frame
