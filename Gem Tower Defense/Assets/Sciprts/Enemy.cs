@@ -41,8 +41,11 @@ public class Enemy : MonoBehaviour
         // check if target reached
         if (transform.position == currentTarget)
         {
-            if (targetNumber == targets.Length - 1) Destroy(gameObject);
-
+            if (targetNumber == targets.Length - 1)
+            {
+                Destroy(gameObject);
+                return;
+            }
             targetNumber++;
             currentTarget = targets[targetNumber];
         }
