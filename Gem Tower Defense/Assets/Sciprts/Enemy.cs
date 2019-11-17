@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
 {
     public float hp;
     public float speed;
-    public Transform target;
+    private Vector3 target;
 
     // Start is called before the first frame update
     void Start()
@@ -18,8 +18,7 @@ public class Enemy : MonoBehaviour
 
     private void GetInitialTarget()
     {
-        target = new GameObject().transform;
-        target.transform.position = new Vector3(8, 3, -1);
+        target = new Vector3(8, 3, -1);
     }
 
     // Update is called once per frame
@@ -27,7 +26,7 @@ public class Enemy : MonoBehaviour
     {
         // move
         float step = speed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+        transform.position = Vector3.MoveTowards(transform.position, target, step);
 
         // check if target reached
     }
