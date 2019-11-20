@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Enemy : MonoBehaviour, IDescribable
+public class Enemy : GameboardEntity, IDescribable
 {
     public float hp;
     public float speed;
@@ -14,8 +14,10 @@ public class Enemy : MonoBehaviour, IDescribable
     public Text description;
 
     // Start is called before the first frame update
-    void Start()
+    public override void Start()
     {
+        base.Start();
+
         hp = UnityEngine.Random.Range(1,10);
         speed = 3f;
         description = GameObject.Find("DescriptionOfSelection").GetComponent<Text>();
