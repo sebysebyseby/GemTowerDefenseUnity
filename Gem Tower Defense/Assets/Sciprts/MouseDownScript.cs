@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -56,11 +57,25 @@ public class MouseDownScript : MonoBehaviour, IPointerClickHandler, ISelectHandl
     {
         Debug.Log("I got selected");
         RestoreSpriteColor();
+        RemoveDescription();
+    }
+
+    private void RemoveDescription()
+    {
+        throw new NotImplementedException();
     }
 
     public void OnSelect(BaseEventData eventData)
     {
         Debug.Log("I got deselected");
         DarkenSpriteColor();
+        UpdateDescription();
+    }
+
+    private void UpdateDescription()
+    {
+        IDescribable objectWithDescription = gameObject.GetComponent<Enemy>();
+        Debug.Log("I', updating the description");
+        objectWithDescription.UpdateDescription();
     }
 }
