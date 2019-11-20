@@ -87,7 +87,7 @@ public class BoardManager : MonoBehaviour
     public void PlaceRandomTile(float x, float y)
     {// change this to 0 instead of -1 later
         if (freshlyPlacedTiles.Count >= 5) throw new Exception("There were already 5 freshly placed gems");
-        Debug.Log("place random tile got called with" + x + "  - " + y);
+        //Debug.Log("place random tile got called with" + x + "  - " + y);
         var freshlyPlacedGem = Instantiate(chippedGems[UnityEngine.Random.Range(0, chippedGems.Length)], new Vector3(x, y, -1), Quaternion.identity);
 
         freshlyPlacedTiles.Push(freshlyPlacedGem);
