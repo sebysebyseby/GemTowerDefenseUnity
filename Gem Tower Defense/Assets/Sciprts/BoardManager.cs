@@ -70,10 +70,10 @@ public class BoardManager : MonoBehaviour
                 // I think I'll need to set the parent of these things, to make them appear on the canvas layers correctly
                 {
                     case 'G':
-                        Instantiate(groundTiles[UnityEngine.Random.Range(0, groundTiles.Length)], new Vector3(i, height - j - 1, 1), Quaternion.identity);
+                        Instantiate(groundTiles[UnityEngine.Random.Range(0, groundTiles.Length)], new Vector3(i, height - j - 1, 0), Quaternion.identity);
                         break;
                     case 'P':
-                        Instantiate(pathTiles[0], new Vector3(i, height - j - 1, 1), Quaternion.identity);
+                        Instantiate(pathTiles[0], new Vector3(i, height - j - 1, 0), Quaternion.identity);
                         break;
                     default:
                         Instantiate(pathTiles[1], new Vector3(i, height - j - 1, 0), Quaternion.identity);
@@ -85,10 +85,10 @@ public class BoardManager : MonoBehaviour
     }
 
     public void PlaceRandomTile(float x, float y)
-    {// change this to 0 instead of -1 later
+    {
         if (freshlyPlacedTiles.Count >= 5) throw new Exception("There were already 5 freshly placed gems");
         //Debug.Log("place random tile got called with" + x + "  - " + y);
-        var freshlyPlacedGem = Instantiate(chippedGems[UnityEngine.Random.Range(0, chippedGems.Length)], new Vector3(x, y, -1), Quaternion.identity);
+        var freshlyPlacedGem = Instantiate(chippedGems[UnityEngine.Random.Range(0, chippedGems.Length)], new Vector3(x, y, 0), Quaternion.identity);
 
         freshlyPlacedTiles.Push(freshlyPlacedGem);
         if (freshlyPlacedTiles.Count >= 5)

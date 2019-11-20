@@ -9,7 +9,7 @@ public class SpawnEnemy : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Instantiate(enemy, new Vector3(0, 3, -1), Quaternion.identity); ;
+        Instantiate(enemy, new Vector3(0, 3, 0), Quaternion.identity); ;
     }
 
     // Start is called before the first frame update
