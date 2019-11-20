@@ -26,9 +26,9 @@ public class Enemy : MonoBehaviour, IDescribable
 
     private void LoadTargets()
     {
-        targets[0] = new Vector3(8, 3, -1);
-        targets[1] = new Vector3(8, 6, -1);
-        targets[2] = new Vector3(19, 6, -1);
+        targets[0] = new Vector3(8, 3, 0);
+        targets[1] = new Vector3(8, 6, 0);
+        targets[2] = new Vector3(19, 6, 0);
     }
 
     private void GetInitialTarget()
