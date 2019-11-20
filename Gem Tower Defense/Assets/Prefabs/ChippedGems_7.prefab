@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5307738055959488009}
   - component: {fileID: 3081403350743575044}
   - component: {fileID: 945307564386614908}
+  - component: {fileID: 114107206788210830}
   m_Layer: 0
   m_Name: ChippedGems_7
   m_TagString: Untagged
@@ -106,3 +107,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114107206788210830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5368652960620937425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09d5bf152e5db4944bdabfbf7e3e95f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 
+  description: {fileID: 0}

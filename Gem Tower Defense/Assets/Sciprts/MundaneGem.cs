@@ -10,6 +10,11 @@ public class MundaneGem : GameboardEntity
         base.Start();
     }
 
+    public override void UpdateDescription()
+    {
+        description.text = "Generic mundane gem description";
+    }
+
     // Update is called once per frame
     void Update()
     {

@@ -11,7 +11,6 @@ public class Enemy : GameboardEntity, IDescribable
     private Vector3 currentTarget;
     private int targetNumber = 0;
     private Vector3[] targets = new Vector3[3];
-    public Text description;
 
     // Start is called before the first frame update
     public override void Start()
@@ -20,7 +19,6 @@ public class Enemy : GameboardEntity, IDescribable
 
         hp = UnityEngine.Random.Range(1,10);
         speed = 3f;
-        description = GameObject.Find("DescriptionOfSelection").GetComponent<Text>();
 
         LoadTargets();
         GetInitialTarget();
@@ -50,6 +48,7 @@ public class Enemy : GameboardEntity, IDescribable
         {
             if (targetNumber == targets.Length - 1)
             {
+                eventSystem.SetSelectedGameObject(null);
                 Destroy(gameObject);
                 return;
             }
@@ -58,13 +57,8 @@ public class Enemy : GameboardEntity, IDescribable
         }
     }
 
-    public void UpdateDescription()
+    public override void UpdateDescription()
     {
         description.text = "Enemy HP is: " + hp;
-    }
-
-    public void RemoveDescription()
-    {
-        throw new NotImplementedException();
     }
 }
