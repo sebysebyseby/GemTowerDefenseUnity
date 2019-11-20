@@ -4,21 +4,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Enemy : MonoBehaviour, IDescribable
+public class Enemy : GameboardEntity, IDescribable
 {
     public float hp;
     public float speed;
     private Vector3 currentTarget;
     private int targetNumber = 0;
     private Vector3[] targets = new Vector3[3];
-    public Text description;
 
     // Start is called before the first frame update
-    void Start()
+    public override void Start()
     {
+        base.Start();
+
         hp = UnityEngine.Random.Range(1,10);
         speed = 3f;
-        description = GameObject.Find("DescriptionOfSelection").GetComponent<Text>();
 
         LoadTargets();
         GetInitialTarget();
@@ -48,6 +48,7 @@ public class Enemy : MonoBehaviour, IDescribable
         {
             if (targetNumber == targets.Length - 1)
             {
+                eventSystem.SetSelectedGameObject(null);
                 Destroy(gameObject);
                 return;
             }
@@ -56,13 +57,8 @@ public class Enemy : MonoBehaviour, IDescribable
         }
     }
 
-    public void UpdateDescription()
+    public override void UpdateDescription()
     {
         description.text = "Enemy HP is: " + hp;
-    }
-
-    public void RemoveDescription()
-    {
-        throw new NotImplementedException();
     }
 }
