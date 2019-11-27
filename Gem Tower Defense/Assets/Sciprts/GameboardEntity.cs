@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public abstract class GameboardEntity : MonoBehaviour, IPointerClickHandler, ISelectHandler, IDeselectHandler, IDescribable
 {
-    public string type;
     protected EventSystem eventSystem;
     private SpriteRenderer spriteRenderer;
     public Text description;
@@ -39,7 +38,7 @@ public abstract class GameboardEntity : MonoBehaviour, IPointerClickHandler, ISe
     private void DarkenSpriteColor()
     {
         Color newColor = spriteRenderer.color;
-        newColor.a = 0.8f;
+        newColor.a = 0.65f;
         spriteRenderer.color = newColor;
     }
 

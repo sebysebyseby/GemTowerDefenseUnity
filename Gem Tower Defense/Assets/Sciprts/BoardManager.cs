@@ -2,16 +2,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class BoardManager : MonoBehaviour
 {
+    private EventSystem eventSystem;
 
     public GameObject[] groundTiles;
     public GameObject[] pathTiles;
-    public GameObject checkpointTile;
+    public GameObject rockTile;
     public GameObject[] chippedGems;
 
+    private GameStates gameState;
+
     public Stack<GameObject> freshlyPlacedTiles = new Stack<GameObject>();
+    public List<GameObject> placedGems = new List<GameObject>();
+
+    public GameObject lastSelectedGem;
 
     public static char[,] bigBoard = new char[19, 20]
     {
@@ -55,7 +63,9 @@ public class BoardManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        eventSystem = EventSystem.current;
         InitializeBoard();
+        gameState = GameStates.BETWEEN_WAVES;
     }
 
     private void InitializeBoard()
@@ -86,15 +96,50 @@ public class BoardManager : MonoBehaviour
 
     public void PlaceRandomTile(float x, float y)
     {
-        if (freshlyPlacedTiles.Count >= 5) throw new Exception("There were already 5 freshly placed gems");
-        //Debug.Log("place random tile got called with" + x + "  - " + y);
-        var freshlyPlacedGem = Instantiate(chippedGems[UnityEngine.Random.Range(0, chippedGems.Length)], new Vector3(x, y, 0), Quaternion.identity);
+        if (freshlyPlacedTiles.Count >= 5 ) throw new Exception("There were already 5 freshly placed gems");
+        if (gameState != GameStates.PLACING_GEMS) throw new Exception("Right now it is not time for gems to be placed");
 
+        Debug.Log("place random tile got called with" + x + "  - " + y);
+        var freshlyPlacedGem = Instantiate(chippedGems[UnityEngine.Random.Range(0, chippedGems.Length)], new Vector3(x, y, 0), Quaternion.identity);
         freshlyPlacedTiles.Push(freshlyPlacedGem);
+        lastSelectedGem = freshlyPlacedGem;
+
         if (freshlyPlacedTiles.Count >= 5)
         {
-            //do something trigger being able to keep one of the placed gems
+            GameObject.Find("ButtonKeep").GetComponent<Button>().interactable = true;
         }
+    }
+
+    public void PlaceRockTile(float x, float y)
+    {
+        var newRock = Instantiate(rockTile, new Vector3(x, y, 0), Quaternion.identity);
+    }
+
+    public void ChangeGameStateToPlacingGems()
+    {
+        gameState = GameStates.PLACING_GEMS;
+    }
+
+    public void KeepSelectedGem()
+    {
+        if (freshlyPlacedTiles.Count == 5)
+        {
+            foreach (GameObject freshGem in freshlyPlacedTiles)
+            {
+                if (freshGem != lastSelectedGem)
+                {
+                    PlaceRockTile(freshGem.transform.position.x, freshGem.transform.position.y);
+                    Destroy(freshGem);
+                }
+            }
+            Debug.Log("I have decided to keep this gem I selected");
+            eventSystem.SetSelectedGameObject(lastSelectedGem);
+        }
+        else
+        {
+            Debug.Log("I failed to keep a gem because there weren't 5 selected");
+        }
+
     }
 
     // Update is called once per frame
