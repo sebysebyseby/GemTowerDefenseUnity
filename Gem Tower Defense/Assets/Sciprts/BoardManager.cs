@@ -20,6 +20,8 @@ public class BoardManager : MonoBehaviour
     public List<GameObject> placedGems = new List<GameObject>();
 
     public GameObject lastSelectedGem;
+    public GameObject lastSelectedGameObject;
+    private GameObject currentSelectedGameObject_Recent;
 
     public static char[,] bigBoard = new char[19, 20]
     {
@@ -93,6 +95,21 @@ public class BoardManager : MonoBehaviour
             }
         }
     }
+    
+    // Update is called once per frame
+    void Update()
+    {
+        GetLastGameObjectSelected();
+    }
+
+    private void GetLastGameObjectSelected()
+    {
+        if (eventSystem.currentSelectedGameObject != currentSelectedGameObject_Recent)
+        {
+            lastSelectedGameObject = currentSelectedGameObject_Recent;
+            currentSelectedGameObject_Recent = eventSystem.currentSelectedGameObject;
+        }
+    }
 
     public void PlaceRandomTile(float x, float y)
     {
@@ -122,11 +139,12 @@ public class BoardManager : MonoBehaviour
 
     public void KeepSelectedGem()
     {
-        if (freshlyPlacedTiles.Count == 5)
+
+        if (freshlyPlacedTiles.Count == 5 && freshlyPlacedTiles.Contains(lastSelectedGameObject))
         {
             foreach (GameObject freshGem in freshlyPlacedTiles)
             {
-                if (freshGem != lastSelectedGem)
+                if (freshGem != lastSelectedGameObject)
                 {
                     PlaceRockTile(freshGem.transform.position.x, freshGem.transform.position.y);
                     Destroy(freshGem);
@@ -137,14 +155,8 @@ public class BoardManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("I failed to keep a gem because there weren't 5 selected");
+            Debug.Log("I failed to keep a gem because there weren't 5 selected or I was trying to keep something irrelevant");
         }
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
 
     }
 }
