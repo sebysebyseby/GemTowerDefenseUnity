@@ -1042,6 +1042,7 @@ MonoBehaviour:
   - {fileID: 5368652960620937425, guid: 0f155f80a68e04a4682190e5e6a2cc9d, type: 3}
   placedGems: []
   lastSelectedGem: {fileID: 0}
+  lastSelectedGameObject: {fileID: 0}
 --- !u!4 &1325268698
 Transform:
   m_ObjectHideFlags: 0
