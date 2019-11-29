@@ -28,7 +28,7 @@ public abstract class GameboardEntity : MonoBehaviour, IPointerClickHandler, ISe
         eventSystem.SetSelectedGameObject(gameObject);
     }
 
-    public void OnSelect(BaseEventData eventData)
+    virtual public void OnSelect(BaseEventData eventData)
     {
         Debug.Log("I got Selected");
         DarkenSpriteColor();
@@ -44,7 +44,7 @@ public abstract class GameboardEntity : MonoBehaviour, IPointerClickHandler, ISe
 
     public abstract void UpdateDescription();
 
-    public void OnDeselect(BaseEventData eventData)
+    virtual public void OnDeselect(BaseEventData eventData)
     {
         Debug.Log("I got Delected");
         RestoreSpriteColor();
