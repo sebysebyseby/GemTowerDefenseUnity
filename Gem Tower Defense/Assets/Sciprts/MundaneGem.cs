@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 public class MundaneGem : GameboardEntity
 {
@@ -66,8 +67,13 @@ public class MundaneGem : GameboardEntity
 
     private Enemy[] FindTargets()
     {
-        Enemy[] enemies = (Enemy[]) FindObjectsOfType(typeof(Enemy));
-        Debug.Log("found " + enemies.Length + " enemies");
-        return enemies;
+        Enemy[] allEnemies = (Enemy[]) FindObjectsOfType(typeof(Enemy));
+        Debug.Log("found total of " + allEnemies.Length + " enemies");
+
+        Enemy[] enemiesInRange = 
+            allEnemies.Where(e => Vector3.Distance(e.gameObject.transform.position, 
+            gameObject.transform.position) <= range).ToArray();
+        Debug.Log("found " + allEnemies.Length + " enemies in range");
+        return enemiesInRange;
     }
 }
