@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,13 +7,20 @@ using UnityEngine.EventSystems;
 public class MundaneGem : GameboardEntity
 {
     public string type;
-    public float range = 2;
+    public float range = 2f;
+    public float damage = 4f;
+    public float cooldownBase = 13f;
+    public float cooldownCorrected;
+    public float cooldownLeft = 0f;
+
 
     // Start is called before the first frame update
     public override void Start()
     {
         base.Start();
         eventSystem.SetSelectedGameObject(gameObject);
+
+        cooldownCorrected = cooldownBase;
     }
 
     public override void UpdateDescription()
@@ -35,6 +43,31 @@ public class MundaneGem : GameboardEntity
     // Update is called once per frame
     void Update()
     {
-        
+        if (cooldownLeft > 0)
+        {
+            cooldownLeft = Mathf.Max(0, cooldownLeft - Time.deltaTime);
+        }
+        else
+        {
+            Enemy[] targets = FindTargets();
+            if (targets.Length > 0) Fire(targets);
+        }
+    }
+
+    private void Fire(Enemy [] targets)
+    {
+        foreach (Enemy target in targets)
+        {
+            Debug.Log("Dealt " + damage + " damage to target at " + target.transform.position.x + "," + target.transform.position.y);
+            target.hp -= damage;
+        }
+        cooldownLeft = cooldownCorrected;
+    }
+
+    private Enemy[] FindTargets()
+    {
+        Enemy[] enemies = (Enemy[]) FindObjectsOfType(typeof(Enemy));
+        Debug.Log("found " + enemies.Length + " enemies");
+        return enemies;
     }
 }

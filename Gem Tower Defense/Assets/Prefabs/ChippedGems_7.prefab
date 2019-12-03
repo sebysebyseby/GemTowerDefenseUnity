@@ -121,3 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: {fileID: 0}
   type: Opal
+  range: 0
+  damage: 4
+  baseCooldown: 2
+  cooldownLeft: 0
