@@ -121,3 +121,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: {fileID: 0}
   type: Topaz
+  range: 6
