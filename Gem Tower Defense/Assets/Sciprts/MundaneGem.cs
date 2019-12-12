@@ -1,23 +1,34 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 public class MundaneGem : GameboardEntity
 {
-    public string type;
-    public float range = 2;
+    public string typeName;
+    private GemType type;
+    public float range = 2f;
+    public float damage = 4f;
+    public float cooldownBase = 13f;
+    public float cooldownCorrected;
+    public float cooldownLeft = 0f;
+
 
     // Start is called before the first frame update
     public override void Start()
     {
         base.Start();
         eventSystem.SetSelectedGameObject(gameObject);
+
+        type = GemType.GetGemType(typeName);
+        cooldownCorrected = cooldownBase;
     }
 
     public override void UpdateDescription()
     {
-        description.text = "Type of mundane gem selected: " + type;
+        description.text = "Type of mundane gem selected: " + typeName;
     }
 
     public override void OnSelect(BaseEventData eventData)
@@ -35,6 +46,42 @@ public class MundaneGem : GameboardEntity
     // Update is called once per frame
     void Update()
     {
-        
+        if (cooldownLeft > 0)
+        {
+            cooldownLeft = Mathf.Max(0, cooldownLeft - Time.deltaTime);
+        }
+        else
+        {
+            Enemy[] targets = FindTargets();
+            if (targets.Length > 0) Fire(targets);
+        }
+    }
+
+    private void Fire(Enemy [] targets)
+    {
+        foreach (Enemy target in targets)
+        {
+            Debug.Log("Dealt " + damage + " damage to target at " + target.transform.position.x + "," + target.transform.position.y);
+            target.hp -= damage;
+            DrawDamageLaser(target.transform.position);
+        }
+        cooldownLeft = cooldownCorrected;
+    }
+
+    private void DrawDamageLaser(Vector3 laserEndPosition)
+    {
+        DamageLine.CreateDamageLine(type.Color, gameObject.transform.position, laserEndPosition);
+    }
+
+    private Enemy[] FindTargets()
+    {
+        Enemy[] allEnemies = (Enemy[]) FindObjectsOfType(typeof(Enemy));
+        Debug.Log("found total of " + allEnemies.Length + " enemies");
+
+        Enemy[] enemiesInRange = 
+            allEnemies.Where(e => Vector3.Distance(e.gameObject.transform.position, 
+            gameObject.transform.position) <= range).ToArray();
+        Debug.Log("found " + allEnemies.Length + " enemies in range");
+        return enemiesInRange;
     }
 }

@@ -17,7 +17,7 @@ public class Enemy : GameboardEntity, IDescribable
     {
         base.Start();
 
-        hp = UnityEngine.Random.Range(1,10);
+        hp = 10;
         speed = 3f;
 
         LoadTargets();
@@ -39,6 +39,8 @@ public class Enemy : GameboardEntity, IDescribable
     // Update is called once per frame
     void Update()
     {
+        if (hp <= 0) DestroyEnemy();
+
         // move
         float step = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, currentTarget, step);
@@ -48,13 +50,18 @@ public class Enemy : GameboardEntity, IDescribable
         {
             if (targetNumber == targets.Length - 1)
             {
-                eventSystem.SetSelectedGameObject(null);
-                Destroy(gameObject);
+                DestroyEnemy();
                 return;
             }
             targetNumber++;
             currentTarget = targets[targetNumber];
         }
+    }
+
+    private void DestroyEnemy()
+    {
+        if (eventSystem.currentSelectedGameObject == gameObject) eventSystem.SetSelectedGameObject(null);
+        Destroy(gameObject);
     }
 
     public override void UpdateDescription()
