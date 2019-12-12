@@ -120,4 +120,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   description: {fileID: 0}
-  type: Topaz
+  typeName: topaz
+  range: 2
+  damage: 4
+  cooldownBase: 13
+  cooldownCorrected: 0
+  cooldownLeft: 0

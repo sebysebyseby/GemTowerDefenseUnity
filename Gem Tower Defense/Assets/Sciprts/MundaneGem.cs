@@ -7,7 +7,8 @@ using System.Linq;
 
 public class MundaneGem : GameboardEntity
 {
-    public string type;
+    public string typeName;
+    private GemType type;
     public float range = 2f;
     public float damage = 4f;
     public float cooldownBase = 13f;
@@ -21,12 +22,13 @@ public class MundaneGem : GameboardEntity
         base.Start();
         eventSystem.SetSelectedGameObject(gameObject);
 
+        type = GemType.GetGemType(typeName);
         cooldownCorrected = cooldownBase;
     }
 
     public override void UpdateDescription()
     {
-        description.text = "Type of mundane gem selected: " + type;
+        description.text = "Type of mundane gem selected: " + typeName;
     }
 
     public override void OnSelect(BaseEventData eventData)
@@ -61,8 +63,14 @@ public class MundaneGem : GameboardEntity
         {
             Debug.Log("Dealt " + damage + " damage to target at " + target.transform.position.x + "," + target.transform.position.y);
             target.hp -= damage;
+            DrawDamageLaser(target.transform.position);
         }
         cooldownLeft = cooldownCorrected;
+    }
+
+    private void DrawDamageLaser(Vector3 laserEndPosition)
+    {
+        DamageLine.CreateDamageLine(type.Color, gameObject.transform.position, laserEndPosition);
     }
 
     private Enemy[] FindTargets()
