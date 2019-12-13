@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -22,6 +23,8 @@ public class BoardManager : MonoBehaviour
     public GameObject lastSelectedGem;
     public GameObject lastSelectedGameObject;
     private GameObject currentSelectedGameObject_Recent;
+
+    private List<Checkpoint> checkpoints;
 
     public static char[,] bigBoard = new char[19, 20]
     {
@@ -74,6 +77,7 @@ public class BoardManager : MonoBehaviour
     {
         int height = board.GetLength(0);
         int width = board.GetLength(1);
+        checkpoints = new List<Checkpoint>();
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
@@ -88,14 +92,16 @@ public class BoardManager : MonoBehaviour
                         Instantiate(pathTiles[0], new Vector3(i, height - j - 1, 0), Quaternion.identity);
                         break;
                     default:
+                        int index = (int)char.GetNumericValue(board[j, i]);
+                        checkpoints.Add(new Checkpoint(index, i, height - j - 1));
                         Instantiate(pathTiles[1], new Vector3(i, height - j - 1, 0), Quaternion.identity);
                         break;
                 }
-
             }
         }
+        checkpoints = checkpoints.OrderBy(c => c.ZeroIndexCheckpointNumber).ToList();
     }
-    
+
     // Update is called once per frame
     void Update()
     {
