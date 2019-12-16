@@ -1,13 +1,15 @@
-﻿public class Checkpoint
+﻿using UnityEngine;
+using System.Collections.Generic;
+
+public class Checkpoint
 {
     public int ZeroIndexCheckpointNumber { get; set; }
-    public float X { get; set; }
-    public float Y { get; set; }
+    public Vector3 Position { get; set; }
+    public List<Vector3> PathToCheckpoint { get; set; } 
 
     public Checkpoint(int index, float x, float y)
     {
         ZeroIndexCheckpointNumber = index;
-        X = x;
-        Y = y;
+        Position = new Vector3(x, y, 0);
     }
 }

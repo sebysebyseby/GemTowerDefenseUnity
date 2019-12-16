@@ -100,6 +100,11 @@ public class BoardManager : MonoBehaviour
             }
         }
         checkpoints = checkpoints.OrderBy(c => c.ZeroIndexCheckpointNumber).ToList();
+        foreach (Checkpoint c in checkpoints)
+        {
+            c.PathToCheckpoint = CalculatePathToCheckpoint(c);
+        }
+        Debug.Log("done with path calculation");
     }
 
     // Update is called once per frame
@@ -131,6 +136,56 @@ public class BoardManager : MonoBehaviour
         {
             GameObject.Find("ButtonKeep").GetComponent<Button>().interactable = true;
         }
+    }
+
+    private List<Vector3> CalculatePathToCheckpoint(Checkpoint c)
+    {
+        if (c.ZeroIndexCheckpointNumber == 0) return new List<Vector3>();
+        Vector3 start = checkpoints[c.ZeroIndexCheckpointNumber - 1].Position;
+        Vector3 destination = c.Position;
+
+        // store explored spaces as Tuple<current, path taken>
+        Queue<Tuple<Vector3, List<Vector3>>> exploredPaths = new Queue<Tuple<Vector3, List<Vector3>>>();
+        List<Vector3> exploredSpaces = new List<Vector3>();
+        exploredSpaces.Add(start);
+        exploredPaths.Enqueue(Tuple.Create(start, new List<Vector3>()));
+
+        while (exploredPaths.Count > 0)
+        {
+            var currentPath = exploredPaths.Peek();
+            if (currentPath.Item1 == destination)
+            {
+                currentPath.Item2.Add(destination);
+                return currentPath.Item2;
+            }
+
+            List<Vector3> spacesAvailable = FindNextSpace(exploredSpaces, currentPath.Item1);
+            foreach(var currentSpace in spacesAvailable)
+            {
+                var path = currentPath.Item2;
+                path.Add(currentPath.Item1);
+                exploredSpaces.Add(currentSpace);
+                exploredPaths.Enqueue(Tuple.Create(currentSpace, new List<Vector3>(path)));
+            }
+            exploredPaths.Dequeue();
+        }
+        return null;
+    }
+    
+    private List<Vector3> FindNextSpace(List<Vector3> exploredSpaces, Vector3 currentSpace)
+    {
+        List<Vector3> emptySpaces = new List<Vector3>();
+        int height = board.GetLength(0);
+        int width = board.GetLength(1);
+        int x = (int)currentSpace.x;
+        int y = (int)currentSpace.y;
+
+        // try move up -> left -> right -> down
+        if ((y + 1) < height && board[y + 1, x] != 'X') emptySpaces.Add(new Vector3(x, y + 1, 0));
+        if ((x - 1) >= 0     && board[y, x - 1] != 'X') emptySpaces.Add(new Vector3(x - 1, y, 0));
+        if ((x + 1) < width  && board[y, x + 1] != 'X') emptySpaces.Add(new Vector3(x + 1, y, 0));
+        if ((y - 1) >= 0     && board[y - 1, x] != 'X') emptySpaces.Add(new Vector3(x, y - 1, 0));
+        return emptySpaces.Except(exploredSpaces).ToList();
     }
 
     public void PlaceRockTile(float x, float y)
