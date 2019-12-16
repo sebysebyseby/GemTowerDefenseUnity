@@ -63,7 +63,24 @@ public class BoardManager : MonoBehaviour
         {'G','G','G','G','G','G','G','G','G','G','G'}
     };
 
-    public char[,] board = bigBoard;
+    public char[,] board = FlipAndInvertBoard(bigBoard);
+
+    // Flips a visually correct board into an array that has correct X,Y coordinates
+    // ie. board[X,Y] gives you the object at X,Y instead of the object at Y,-X
+    private static char[,] FlipAndInvertBoard(char[,] visuallyAppealingBoard)
+    {
+        int dimension0Count = visuallyAppealingBoard.GetLength(0);
+        int dimension1Count = visuallyAppealingBoard.GetLength(1);
+        char[,] properlyCoordinatedBoard = new char[dimension1Count, dimension0Count];
+        for (int i = 0; i < dimension1Count; i++)
+        {
+            for (int j = 0; j < dimension0Count; j++)
+            {
+                properlyCoordinatedBoard[i, j] = visuallyAppealingBoard[dimension0Count - j - 1, i];
+            }
+        }
+        return properlyCoordinatedBoard;
+    }
 
     // Use this for initialization
     void Start()
@@ -75,26 +92,28 @@ public class BoardManager : MonoBehaviour
 
     private void InitializeBoard()
     {
-        int height = board.GetLength(0);
-        int width = board.GetLength(1);
+        int width = board.GetLength(0);
+        int height = board.GetLength(1);
         checkpoints = new List<Checkpoint>();
-        for (int i = 0; i < width; i++)
+        for (int x = 0; x < width; x++)
         {
-            for (int j = 0; j < height; j++)
+            for (int y = 0; y < height; y++)
             {
-                switch (board[j, i])
+                switch (board[x, y])
                 // I think I'll need to set the parent of these things, to make them appear on the canvas layers correctly
                 {
                     case 'G':
-                        Instantiate(groundTiles[UnityEngine.Random.Range(0, groundTiles.Length)], new Vector3(i, height - j - 1, 0), Quaternion.identity);
+                        Instantiate(groundTiles[UnityEngine.Random.Range(0, groundTiles.Length)], new Vector3(x, y, 0), Quaternion.identity);
                         break;
                     case 'P':
-                        Instantiate(pathTiles[0], new Vector3(i, height - j - 1, 0), Quaternion.identity);
+                        Instantiate(pathTiles[0], new Vector3(x, y, 0), Quaternion.identity);
+                        break;
+                    case 'X':
                         break;
                     default:
-                        int index = (int)char.GetNumericValue(board[j, i]);
-                        checkpoints.Add(new Checkpoint(index, i, height - j - 1));
-                        Instantiate(pathTiles[1], new Vector3(i, height - j - 1, 0), Quaternion.identity);
+                        int index = (int)char.GetNumericValue(board[x, y]);
+                        checkpoints.Add(new Checkpoint(index, x, y));
+                        Instantiate(pathTiles[1], new Vector3(x, y, 0), Quaternion.identity);
                         break;
                 }
             }
