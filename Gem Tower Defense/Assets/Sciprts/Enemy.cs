@@ -10,25 +10,32 @@ public class Enemy : GameboardEntity, IDescribable
     public float speed;
     private Vector3 currentTarget;
     private int targetNumber = 0;
-    private Vector3[] targets = new Vector3[3];
+    private List<Vector3> targets = new List<Vector3>();
+    BoardManager boardManager;
 
     // Start is called before the first frame update
     public override void Start()
     {
         base.Start();
+        boardManager = (BoardManager)GameObject.Find("GameBoard").GetComponent(typeof(BoardManager));
+        List<Checkpoint> checkpoints = boardManager.checkpoints;
 
         hp = 10;
         speed = 3f;
 
-        LoadTargets();
+        LoadTargets(checkpoints);
         GetInitialTarget();
     }
 
-    private void LoadTargets()
+    private void LoadTargets(List<Checkpoint> checkpoints)
     {
-        targets[0] = new Vector3(8, 3, 0);
-        targets[1] = new Vector3(8, 6, 0);
-        targets[2] = new Vector3(19, 6, 0);
+        foreach (Checkpoint c in checkpoints)
+        {
+            foreach (Vector3 target in c.PathToCheckpoint)
+            {
+                targets.Add(target);
+            }
+        }
     }
 
     private void GetInitialTarget()
@@ -48,7 +55,7 @@ public class Enemy : GameboardEntity, IDescribable
         // check if target reached
         if (transform.position == currentTarget)
         {
-            if (targetNumber == targets.Length - 1)
+            if (targetNumber == targets.Count - 1)
             {
                 DestroyEnemy();
                 return;
