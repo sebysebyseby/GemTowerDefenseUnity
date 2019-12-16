@@ -181,10 +181,10 @@ public class BoardManager : MonoBehaviour
             List<Vector3> spacesAvailable = FindNextSpace(exploredSpaces, currentPath.Item1);
             foreach(var currentSpace in spacesAvailable)
             {
-                var path = currentPath.Item2;
+                var path = new List<Vector3>(currentPath.Item2);
                 path.Add(currentPath.Item1);
                 exploredSpaces.Add(currentSpace);
-                exploredPaths.Enqueue(Tuple.Create(currentSpace, new List<Vector3>(path)));
+                exploredPaths.Enqueue(Tuple.Create(currentSpace, path));
             }
             exploredPaths.Dequeue();
         }
@@ -194,16 +194,16 @@ public class BoardManager : MonoBehaviour
     private List<Vector3> FindNextSpace(List<Vector3> exploredSpaces, Vector3 currentSpace)
     {
         List<Vector3> emptySpaces = new List<Vector3>();
-        int height = board.GetLength(0);
-        int width = board.GetLength(1);
+        int width = board.GetLength(0);
+        int height = board.GetLength(1);
         int x = (int)currentSpace.x;
         int y = (int)currentSpace.y;
 
         // try move up -> left -> right -> down
-        if ((y + 1) < height && board[y + 1, x] != 'X') emptySpaces.Add(new Vector3(x, y + 1, 0));
-        if ((x - 1) >= 0     && board[y, x - 1] != 'X') emptySpaces.Add(new Vector3(x - 1, y, 0));
-        if ((x + 1) < width  && board[y, x + 1] != 'X') emptySpaces.Add(new Vector3(x + 1, y, 0));
-        if ((y - 1) >= 0     && board[y - 1, x] != 'X') emptySpaces.Add(new Vector3(x, y - 1, 0));
+        if ((y + 1) < height && board[x, y + 1] != 'X') emptySpaces.Add(new Vector3(x, y + 1, 0));
+        if ((x - 1) >= 0     && board[x - 1, y] != 'X') emptySpaces.Add(new Vector3(x - 1, y, 0));
+        if ((x + 1) < width  && board[x + 1, y] != 'X') emptySpaces.Add(new Vector3(x + 1, y, 0));
+        if ((y - 1) >= 0     && board[x, y - 1] != 'X') emptySpaces.Add(new Vector3(x, y - 1, 0));
         return emptySpaces.Except(exploredSpaces).ToList();
     }
 
