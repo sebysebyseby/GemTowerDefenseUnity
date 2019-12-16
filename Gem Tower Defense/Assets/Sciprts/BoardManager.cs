@@ -146,10 +146,9 @@ public class BoardManager : MonoBehaviour
         if (freshlyPlacedTiles.Count >= 5 ) throw new Exception("There were already 5 freshly placed gems");
         if (gameState != GameStates.PLACING_GEMS) throw new Exception("Right now it is not time for gems to be placed");
 
-        Debug.Log("place random tile got called with" + x + "  - " + y);
-        var freshlyPlacedGem = Instantiate(chippedGems[UnityEngine.Random.Range(0, chippedGems.Length)], new Vector3(x, y, 0), Quaternion.identity);
-        freshlyPlacedTiles.Push(freshlyPlacedGem);
-        lastSelectedGem = freshlyPlacedGem;
+        Debug.Log("place random tile got called with: " + x + "  - " + y);
+        
+        PlaceAndSelectRandomizedGem(x,y);
 
         if (freshlyPlacedTiles.Count >= 5)
         {
@@ -205,6 +204,13 @@ public class BoardManager : MonoBehaviour
         if ((x + 1) < width  && board[x + 1, y] != 'X') emptySpaces.Add(new Vector3(x + 1, y, 0));
         if ((y - 1) >= 0     && board[x, y - 1] != 'X') emptySpaces.Add(new Vector3(x, y - 1, 0));
         return emptySpaces.Except(exploredSpaces).ToList();
+    }
+
+    private void PlaceAndSelectRandomizedGem(float x, float y)
+    {
+        var freshlyPlacedGem = Instantiate(chippedGems[UnityEngine.Random.Range(0, chippedGems.Length)], new Vector3(x, y, 0), Quaternion.identity);
+        freshlyPlacedTiles.Push(freshlyPlacedGem);
+        lastSelectedGem = freshlyPlacedGem;
     }
 
     public void PlaceRockTile(float x, float y)
