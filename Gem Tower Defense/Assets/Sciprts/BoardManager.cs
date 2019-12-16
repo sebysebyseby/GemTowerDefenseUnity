@@ -24,7 +24,7 @@ public class BoardManager : MonoBehaviour
     public GameObject lastSelectedGameObject;
     private GameObject currentSelectedGameObject_Recent;
 
-    private List<Checkpoint> checkpoints;
+    public List<Checkpoint> checkpoints;
 
     public static char[,] bigBoard = new char[19, 20]
     {
@@ -41,10 +41,10 @@ public class BoardManager : MonoBehaviour
         {'G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G'},
         {'G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G'},
         {'G','G','G','G','G','G','G','G','2','P','P','P','P','P','P','P','P','P','P','3'},
-        {'G','G','G','G','G','G','G','G','P','G','G','G','G','G','G','G','G','G','G','G'},
-        {'G','G','G','G','G','G','G','G','P','G','G','G','G','G','G','G','G','G','G','G'},
-        {'0','P','P','P','P','P','P','P','1','G','G','G','G','G','G','G','G','G','G','G'},
-        {'G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G'},
+        {'G','G','G','G','G','G','G','X','X','G','G','G','G','G','G','G','G','G','G','G'},
+        {'G','G','G','G','G','G','G','X','P','G','G','G','G','G','G','G','G','G','G','G'},
+        {'0','P','P','P','P','P','P','X','1','G','G','G','G','G','G','G','G','G','G','G'},
+        {'G','G','G','G','G','G','G','X','G','G','G','G','G','G','G','G','G','G','G','G'},
         {'G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G'},
         {'G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G'}
     };
