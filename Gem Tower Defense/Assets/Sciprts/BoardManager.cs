@@ -27,6 +27,7 @@ public class BoardManager : MonoBehaviour
     public List<Checkpoint> checkpoints;
 
     public int level = 0;
+    public int lives = 20;
     public int gold = 100;
     public Chances currentChances = Chances.CHANCES_0;
 
