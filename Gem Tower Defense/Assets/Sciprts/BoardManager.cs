@@ -26,6 +26,10 @@ public class BoardManager : MonoBehaviour
 
     public List<Checkpoint> checkpoints;
 
+    public int level = 0;
+    public int gold = 100;
+    public Chances currentChances = Chances.CHANCES_0;
+
     public static char[,] bigBoard = new char[19, 20]
     {
         {'G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G','G'},
