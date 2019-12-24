@@ -14,11 +14,20 @@ public class BoardManager : MonoBehaviour
     public GameObject[] pathTiles;
     public GameObject rockTile;
     public GameObject[] chippedGems;
+    public GameObject groundEnemy;
+    public GameObject flyingEnemy;
 
     private GameStates gameState;
 
     public Stack<GameObject> freshlyPlacedTiles = new Stack<GameObject>();
     public List<GameObject> placedGems = new List<GameObject>();
+    private int enemiesSpawnedThisLevel = 0;
+
+    private Button buttonKeep;
+    private Button buttonCombine;
+    private Button buttonPlaceGems;
+    private Button buttonStartNextLevel;
+
 
     public GameObject lastSelectedGem;
     public GameObject lastSelectedGameObject;
@@ -91,6 +100,10 @@ public class BoardManager : MonoBehaviour
     void Start()
     {
         eventSystem = EventSystem.current;
+        buttonKeep = GameObject.Find("ButtonKeep").GetComponent<Button>();
+        buttonCombine = GameObject.Find("ButtonCombine").GetComponent<Button>();
+        buttonPlaceGems = GameObject.Find("ButtonPlaceGems").GetComponent<Button>();
+        buttonStartNextLevel = GameObject.Find("ButtonStartNextLevel").GetComponent<Button>();
         InitializeBoard();
         gameState = GameStates.BETWEEN_WAVES;
     }
@@ -135,6 +148,7 @@ public class BoardManager : MonoBehaviour
     void Update()
     {
         GetLastGameObjectSelected();
+        if (enemiesSpawnedThisLevel >= 5) CancelInvoke();
     }
 
     private void GetLastGameObjectSelected()
@@ -157,7 +171,7 @@ public class BoardManager : MonoBehaviour
 
         if (freshlyPlacedTiles.Count >= 5)
         {
-            GameObject.Find("ButtonKeep").GetComponent<Button>().interactable = true;
+            buttonKeep.interactable = true;
         }
     }
 
@@ -226,6 +240,7 @@ public class BoardManager : MonoBehaviour
     public void ChangeGameStateToPlacingGems()
     {
         gameState = GameStates.PLACING_GEMS;
+        enemiesSpawnedThisLevel = 0;
     }
 
     public void KeepSelectedGem()
@@ -243,11 +258,25 @@ public class BoardManager : MonoBehaviour
             }
             Debug.Log("I have decided to keep this gem I selected");
             eventSystem.SetSelectedGameObject(lastSelectedGem);
+            buttonStartNextLevel.interactable = true;
         }
         else
         {
             Debug.Log("I failed to keep a gem because there weren't 5 selected or I was trying to keep something irrelevant");
         }
 
+    }
+
+    public void StartNextLevel()
+    {
+        level++;
+        buttonStartNextLevel.interactable = false;
+        InvokeRepeating("SpawnEnemy", 0.5f, 0.8f);
+    }
+
+    private void SpawnEnemy()
+    {
+        enemiesSpawnedThisLevel++;
+        Instantiate(groundEnemy, checkpoints[0].Position, Quaternion.identity);
     }
 }
